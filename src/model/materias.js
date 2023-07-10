@@ -3,44 +3,53 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
     // defino el modelo
-    sequelize.define('Estudiante', {
-        id_estudiantes: {
+    sequelize.define('Materia', {
+        id_materia: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
+            allowNull: false,
         },
-        dni: {
+        nombre_materia: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        horas_total_cursada: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        forma_aprobacion: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        carrera: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        año_cursada: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        nota_1: {
             type: DataTypes.INTEGER,
             allowNull: true,
         },
-        apellido_y_nombre: {
-            type: DataTypes.STRING(150),
-            allowNull: true,
-        },
-        celular: {
+        nota_2: {
             type: DataTypes.INTEGER,
             allowNull: true,
         },
-        email: {
-            type: DataTypes.STRING(150),
-            allowNull: true,
-        },
-        edad: {
+        nota_3: {
             type: DataTypes.INTEGER,
             allowNull: true,
         },
-        codigo_postal: {
+        nota_4: {
             type: DataTypes.INTEGER,
             allowNull: true,
         },
-        domicilio: {
-            type: DataTypes.STRING(255),
+        nota_final: {
+            type: DataTypes.FLOAT,
             allowNull: true,
-        },
-        carrera_inscripta: {
-            type: DataTypes.STRING(150),
-            allowNull: true,
-        },
+        }
     },
         { timestamps: false });
-}
+};
