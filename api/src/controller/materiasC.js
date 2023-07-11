@@ -12,33 +12,38 @@ const getMaterias = async (req, res) => {
 
 // Crear una nueva materia
 const createMateria = async (req, res) => {
-    const { nombre, horasTotales, formaAprobacion, carreraId, anioCursada } = req.body;
+    const { nombre_materia, horas_total_cursada, forma_aprobacion, carrera_id, año_cursada } = req.body;
     try {
-        const materia = await Materia.create({
-            nombre,
-            horasTotales,
-            formaAprobacion,
-            carreraId,
-            anioCursada,
-        });
-        res.json(materia);
+        const buscar = await Materia.findOne({ where: { nombre_materia } })
+        if (buscar) {
+            return res.status(400).json({ msg: "Esa materia ya existe" });
+        } else {
+            const materias = await Materia.create({
+                nombre_materia,
+                horas_total_cursada,
+                forma_aprobacion,
+                carrera_id,
+                año_cursada,
+            });
+            return res.status(200).json({ msg: "Materia creada", materias });
+        }
     } catch (error) {
-        res.status(500).json({ error: 'Error al crear la materia.' });
+        res.status(500).json({ error });
     }
 };
 
 // Actualizar una materia
 const updateMateria = async (req, res) => {
     const { id } = req.params;
-    const { nombre, horasTotales, formaAprobacion, carreraId, anioCursada } = req.body;
+    const { nombre_materia, horas_total_cursada, forma_aprobacion, carrera_id, año_cursada } = req.body;
     try {
         const materia = await Materia.findByPk(id);
         if (materia) {
-            materia.nombre = nombre;
-            materia.horasTotales = horasTotales;
-            materia.formaAprobacion = formaAprobacion;
-            materia.carreraId = carreraId;
-            materia.anioCursada = anioCursada;
+            materia.nombre_materia = nombre_materia;
+            materia.horas_total_cursada = horas_total_cursada;
+            materia.forma_aprobacion = forma_aprobacion;
+            materia.carrera_id = carrera_id;
+            materia.año_cursada = año_cursada;
             await materia.save();
             res.json(materia);
         } else {
@@ -51,8 +56,8 @@ const updateMateria = async (req, res) => {
 
 // Eliminar una materia
 const deleteMateria = async (req, res) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
         const materia = await Materia.findByPk(id);
         if (materia) {
             await materia.destroy();
@@ -61,6 +66,7 @@ const deleteMateria = async (req, res) => {
             res.status(404).json({ error: 'Materia no encontrada.' });
         }
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Error al eliminar la materia.' });
     }
 };
@@ -109,8 +115,6 @@ const asignarNotas = async (req, res) => {
         return res.status(500).json({ error: 'Error al asignar las notas' });
     }
 };
-
-
 
 module.exports = {
     getMaterias,

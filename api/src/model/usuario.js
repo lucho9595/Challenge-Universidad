@@ -44,6 +44,14 @@ module.exports = (sequelize) => {
             allowNull: false,
             defaultValue: 'estudiante',
         },
-    },
-        { timestamps: false });
+        password: {
+            type: DataTypes.STRING(15),
+            allowNull: false,
+        },
+        año_cursada: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 1, // Valor por defecto para el primer año
+        },
+    }, { timestamps: false });
 };

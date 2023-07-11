@@ -4,30 +4,39 @@ const { Carrera } = require('../db');
 const getCarreras = async (req, res) => {
   try {
     const carreras = await Carrera.findAll();
-    const carrerasConInscriptos = await Promise.all(
-      carreras.map(async (carrera) => {
-        const inscriptosPorAño = await Usuario.count({
-          where: { carrera_id: carrera.id_carrera },
-          group: ['año_cursada'],
-        });
-        return { ...carrera.toJSON(), inscriptosPorAño };
-      })
-    );
-    res.json(carrerasConInscriptos);
+    return res.json({ carreras });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Ocurrió un error al obtener las carreras.' });
   }
 };
 
+//busco uno por id
+async function getCarrera(req, res, next) {
+  const { id } = req.params;
+  try {
+    const carrera = await Carrera.findByPk(id)
+    if (!carrera) { res.json({ msg: 'Carrera no encontrada' }) }
+    res.status(200).json({ carrera });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener las carreras.' });
+  }
+
+}
+
 // Crear una nueva carrera
 const createCarrera = async (req, res) => {
   const { nombre_carrera, descripcion_carrera, fecha_apertura, facultad, año_cursada } = req.body;
   try {
-    const carrera = await Carrera.create({
-      nombre_carrera, descripcion_carrera, fecha_apertura, facultad, año_cursada
-    });
-    res.json(carrera);
+    const buscar = await Carrera.findOne({ where: { nombre_carrera } });
+    if (buscar) {
+      return res.status(400).json({ msg: "Esa carrera ya existe" });
+    } else {
+      const carrera = await Carrera.create({
+        nombre_carrera, descripcion_carrera, fecha_apertura, facultad, año_cursada
+      });
+      return res.json({ msg: "Carrera creada", carrera });
+    }
   } catch (error) {
     res.status(500).json({ error: 'Error al crear la carrera.' });
   }
@@ -76,4 +85,5 @@ module.exports = {
   createCarrera,
   updateCarrera,
   deleteCarrera,
+  getCarrera
 };
