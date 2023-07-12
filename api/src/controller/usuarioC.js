@@ -1,4 +1,4 @@
-const { Usuario, Materia, Carrera } = require('../db');
+const { Usuario } = require('../db');
 
 // Obtener todos los usuarios
 async function getUsuarios(req, res) {
@@ -25,7 +25,7 @@ async function getUser(req, res, next) {
 
 // Crear un nuevo usuario
 const createUsuario = async (req, res) => {
-    const { apellido_y_nombre, dni, celular, email, edad, codigo_postal, domicilio, carrera_inscripta, password } = req.body;
+    const { apellido_y_nombre, dni, celular, email, edad, codigo_postal, domicilio, carrera_id, password, año_cursada } = req.body;
     try {
         const newUser = new Usuario({
             apellido_y_nombre,
@@ -35,8 +35,9 @@ const createUsuario = async (req, res) => {
             edad,
             codigo_postal,
             domicilio,
-            carrera_inscripta,
-            password
+            carrera_id,
+            password,
+            año_cursada
         });
         const user = await newUser.save();
         return res.json({ msg: "Usuario creado", user });
@@ -70,7 +71,7 @@ const login = async (req, res, next) => {
 // Actualizar un usuario
 const updateUsuario = async (req, res) => {
     const { id } = req.params;
-    const { apellido_y_nombre, dni, celular, email, edad, codigo_postal, domicilio, carrera_inscripta, password } = req.body;
+    const { apellido_y_nombre, dni, celular, email, edad, codigo_postal, domicilio, carrera_id, password, año_cursada } = req.body;
     try {
         const usuario = await Usuario.findByPk(id);
         if (usuario) {
@@ -81,8 +82,9 @@ const updateUsuario = async (req, res) => {
             usuario.edad = edad;
             usuario.codigo_postal = codigo_postal;
             usuario.domicilio = domicilio;
-            usuario.carrera_inscripta = carrera_inscripta;
+            usuario.carrera_id = carrera_id;
             usuario.password = password;
+            usuario.año_cursada = año_cursada;
             await usuario.save();
             return res.status(200).json({ msg: "Usuario editado" });
         } else {
@@ -108,91 +110,11 @@ const deleteUsuario = async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar el usuario.' });
     }
 };
-
-const asignarMateria = async (req, res) => {
-    const { id } = req.params; // Obtener el ID del estudiante desde los parámetros de la URL
-    const { materiaId } = req.body; // Obtener el ID de la materia desde el cuerpo de la solicitud
-
-    try {
-        // Verificar si el estudiante existe en la base de datos
-        const estudiante = await Usuario.findByPk(id);
-        if (!estudiante) {
-            return res.status(404).json({ error: 'Estudiante no encontrado' });
-        }
-
-        // Obtener el año de cursada del estudiante
-        const añoCursada = estudiante.año_cursada;
-
-        // Verificar si el estudiante puede asignar materias del año siguiente
-        if (añoCursada > 1) {
-            // Realizar la lógica para permitir la asignación de materias del año siguiente
-            // Puedes utilizar consultas y condiciones adicionales según tu estructura de base de datos y reglas de negocio
-            // Por ejemplo, puedes verificar si el estudiante ha aprobado al menos el 70% de las materias del año actual antes de permitir la asignación de materias del año siguiente
-            // Si se cumplen las condiciones, asigna la materia al estudiante
-        } else {
-            // Realizar la lógica para permitir la asignación de materias del primer año
-            // Puedes utilizar consultas y condiciones adicionales según tu estructura de base de datos y reglas de negocio
-            // Asigna la materia al estudiante
-        }
-
-        return res.status(200).json({ mensaje: 'Materia asignada correctamente' });
-    } catch (error) {
-        return res.status(500).json({ error: 'Error al asignar la materia' });
-    }
-};
-
-const anotarCarrera = async (req, res) => {
-    const { id } = req.params; // Obtener el ID del usuario desde los parámetros de la ruta
-    const { id_carrera } = req.body; // Obtener el ID de la carrera desde el cuerpo de la solicitud
-
-    try {
-        // Verificar si el usuario existe en la base de datos
-        const usuario = await Usuario.findByPk(id);
-
-        if (!usuario) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-
-        // Verificar si el usuario ya está inscripto en una carrera
-        if (usuario.carrera_inscripta) {
-            return res.status(400).json({ error: 'El usuario ya está inscripto en una carrera' });
-        }
-
-        // Obtener la carrera seleccionada
-        const carrera = await Carrera.findByPk(id_carrera);
-
-        if (!carrera) {
-            return res.status(404).json({ error: 'Carrera no encontrada' });
-        }
-
-        // Actualizar los datos del usuario con la carrera seleccionada
-        usuario.carrera_inscripta = carrera.nombre_carrera;
-        usuario.año_cursada = 1; // Por defecto, se asigna el primer año
-
-        // Guardar los cambios en la base de datos
-        await usuario.save();
-
-        // Obtener las materias correspondientes al primer año de la carrera
-        const materias = await Materia.findAll({
-            where: { año_cursada: 1, carrera_id: id_carrera },
-        });
-
-        // Asignar las materias al usuario
-        await usuario.addMaterias(materias);
-
-        return res.json({ message: 'Usuario inscripto en la carrera y materias asignadas correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al inscribir al usuario en la carrera' });
-    }
-};
-
 module.exports = {
     getUsuarios,
     createUsuario,
     updateUsuario,
     deleteUsuario,
-    asignarMateria,
-    anotarCarrera,
     login,
     getUser
 };

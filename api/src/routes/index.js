@@ -1,31 +1,34 @@
 const express = require('express');
 const router = express.Router();
 
-// Importar controladores
 const carreraController = require('../controller/carreraC');
 const materiaController = require('../controller/materiasC');
 const usuarioController = require('../controller/usuarioC');
+const notaController = require('../controller/notaC');
 
-// Rutas para Carreras
-router.get('/carrera', carreraController.getCarreras);
-router.get('/carrera/:id', carreraController.getCarrera);
-router.post('/carrera', carreraController.createCarrera);
-router.put('/carrera/:id', carreraController.updateCarrera);
-router.delete('/carrera/:id', carreraController.deleteCarrera);
+// Endpoints para Carrera
+router.get('/carreras', carreraController.getCarreras);
+router.get('/carreras/:id', carreraController.getCarrera);
+router.post('/carreras', carreraController.createCarrera);
+router.put('/carreras/:id', carreraController.updateCarrera);
+router.delete('/carreras/:id', carreraController.deleteCarrera);
 
-// Rutas para Materias 
-router.get('/materia', materiaController.getMaterias);
-router.post('/materia', materiaController.createMateria);
-router.put('/materia/:id', materiaController.updateMateria);
-router.delete('/materia/:id', materiaController.deleteMateria);
+// Endpoints para Materia
+router.get('/materias', materiaController.getMaterias);
+router.post('/materias', materiaController.createMateria);
+router.put('/materias/:id', materiaController.updateMateria);
+router.delete('/materias/:id', materiaController.deleteMateria);
 
-// Rutas para Usuarios 
-router.get('/usuario', usuarioController.getUsuarios);
-router.get('/usuario/:id', usuarioController.getUser);
-router.post('/usuario', usuarioController.createUsuario);
-router.post('/login', usuarioController.login);
-router.put('/usuario/:id', usuarioController.updateUsuario);
-router.delete('/usuario/:id', usuarioController.deleteUsuario);
-router.post('/usuario/:id/asignarmateria', usuarioController.asignarMateria);
-router.post('/usuario/:id/carrera', usuarioController.anotarCarrera);
+// Endpoints para Estudiante
+router.get('/estudiantes', usuarioController.getUsuarios);
+router.get('/estudiantes/:id', usuarioController.getUser);
+router.post('/estudiantes', usuarioController.createUsuario);
+router.put('/estudiantes/:id', usuarioController.updateUsuario);
+router.delete('/estudiantes/:id', usuarioController.deleteUsuario);
+
+// Endpoints para Nota
+router.post('/notas', notaController.createNota);
+router.put('/notas/:id', notaController.updateNota);
+router.delete('/notas/:id', notaController.deleteNota);
+
 module.exports = router;

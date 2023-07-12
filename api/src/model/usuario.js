@@ -35,9 +35,9 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING(150),
             allowNull: false,
         },
-        carrera_inscripta: {
-            type: DataTypes.STRING(150),
-            allowNull: true,
+        carrera_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         },
         rol: {
             type: DataTypes.STRING(20),

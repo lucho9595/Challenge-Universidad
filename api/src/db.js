@@ -33,16 +33,27 @@ fs.readdirSync(path.join(__dirname, 'model'))
 modelDefiners.forEach((model) => model(sequelize));
 
 // Realizamos las relaciones entre los modelos
-const { Carrera, Materia, Usuario } = sequelize.models;
+const { Carrera, Materia, Usuario, Nota } = sequelize.models;
 
-// Relaciones
-Carrera.hasMany(Materia, { foreignKey: 'carrera_id' });
-Materia.belongsTo(Carrera, { foreignKey: 'carrera_id' });
+// Relación Carrera - Materia
+Carrera.belongsToMany(Materia, { through: 'CarreraMateria', foreignKey: 'carrera_id' });
+Materia.belongsToMany(Carrera, { through: 'CarreraMateria', foreignKey: 'materia_id' });
 
+// Relación Carrera - Estudiante
+Carrera.hasMany(Usuario, { foreignKey: 'carrera_id' });
 Usuario.belongsTo(Carrera, { foreignKey: 'carrera_id' });
-Usuario.belongsTo(Materia, { foreignKey: 'materia_id' });
+
+// Relación Estudiante - Materia a través de Inscripcion
+Usuario.belongsToMany(Materia, { through: "Inscripcion", foreignKey: 'usuario_id' });
+Materia.belongsToMany(Usuario, { through: "Inscripcion", foreignKey: 'materia_id' });
+
+// Relación Materia - Nota
+Materia.hasMany(Nota, { foreignKey: 'materia_id' });
+Nota.belongsTo(Materia, { foreignKey: 'materia_id' });
+Usuario.hasMany(Nota, { foreignKey: 'usuario_id' });
+Nota.belongsTo(Usuario, { foreignKey: 'usuario_id' });
 
 module.exports = {
-    ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-    conn: sequelize,     // para importar la conexión { conn } = require('./db.js');
+    ...sequelize.models,
+    conn: sequelize,
 };

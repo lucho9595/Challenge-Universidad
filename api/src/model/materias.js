@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
             autoIncrement: true,
             allowNull: false,
         },
-        nombre_materia: {
+        nombre: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -21,33 +21,13 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         carrera_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.ARRAY(DataTypes.INTEGER),
             allowNull: false,
         },
         año_cursada: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        nota1: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-        },
-        nota2: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-        },
-        nota3: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-        },
-        nota4: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-        },
-        nota_final: {
-            type: DataTypes.FLOAT,
-            allowNull: true,
-        }
     },
         { timestamps: false });
 };
