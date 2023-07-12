@@ -16,6 +16,61 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `carrera`
+--
+
+DROP TABLE IF EXISTS `carrera`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `carrera` (
+  `id_carrera` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` text,
+  `fecha_apertura` date DEFAULT NULL,
+  `facultad` varchar(255) DEFAULT NULL,
+  `cantidad_años` int DEFAULT NULL,
+  PRIMARY KEY (`id_carrera`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carrera`
+--
+
+LOCK TABLES `carrera` WRITE;
+/*!40000 ALTER TABLE `carrera` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carrera` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `carreramateria`
+--
+
+DROP TABLE IF EXISTS `carreramateria`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `carreramateria` (
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `carrera_id` int NOT NULL,
+  `materia_id` int NOT NULL,
+  PRIMARY KEY (`carrera_id`,`materia_id`),
+  KEY `materia_id` (`materia_id`),
+  CONSTRAINT `carreramateria_ibfk_1` FOREIGN KEY (`carrera_id`) REFERENCES `carreras` (`id_carrera`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `carreramateria_ibfk_2` FOREIGN KEY (`materia_id`) REFERENCES `materia` (`id_materia`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `carreramateria`
+--
+
+LOCK TABLES `carreramateria` WRITE;
+/*!40000 ALTER TABLE `carreramateria` DISABLE KEYS */;
+/*!40000 ALTER TABLE `carreramateria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `carreras`
 --
 
@@ -30,7 +85,7 @@ CREATE TABLE `carreras` (
   `facultad` varchar(150) NOT NULL,
   `año_cursada` int NOT NULL,
   PRIMARY KEY (`id_carrera`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,8 +94,67 @@ CREATE TABLE `carreras` (
 
 LOCK TABLES `carreras` WRITE;
 /*!40000 ALTER TABLE `carreras` DISABLE KEYS */;
-INSERT INTO `carreras` VALUES (1,'Contador Publico','experto en contabilidad y el profesional preparado para tener una visión integral de las empresas y todo tipo de organizaciones','1910-10-02 04:16:48','Economia',6),(2,'Administrador de Empresas','experto en contabilidad y el profesional preparado para tener una visión integral de las empresas y todo tipo de organizaciones','1920-10-02 04:00:00','Economia',6);
+INSERT INTO `carreras` VALUES (1,'Contador Publico','abocado a la contabilidad publica','1920-10-02 04:00:00','Economia',6),(2,'Administracion de empresas','abocado a la administracion','1930-10-02 04:00:00','Economia',6),(3,'Ingeniero informatico','abocado a la informatica','1900-10-02 04:16:48','Informatica',6),(4,'Medicina','abocado a la medicina','1850-10-02 03:53:48','Medicina',6);
 /*!40000 ALTER TABLE `carreras` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `inscripcion`
+--
+
+DROP TABLE IF EXISTS `inscripcion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `inscripcion` (
+  `id_inscripcion` int NOT NULL AUTO_INCREMENT,
+  `usuario_id` int DEFAULT NULL,
+  `materia_id` int DEFAULT NULL,
+  PRIMARY KEY (`id_inscripcion`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `materia_id` (`materia_id`),
+  CONSTRAINT `inscripcion_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`),
+  CONSTRAINT `inscripcion_ibfk_2` FOREIGN KEY (`materia_id`) REFERENCES `materia` (`id_materia`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `inscripcion`
+--
+
+LOCK TABLES `inscripcion` WRITE;
+/*!40000 ALTER TABLE `inscripcion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `inscripcion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `inscripcions`
+--
+
+DROP TABLE IF EXISTS `inscripcions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `inscripcions` (
+  `id_inscripcion` int NOT NULL AUTO_INCREMENT,
+  `estudiante_id` int NOT NULL,
+  `materia_id` int NOT NULL,
+  `usuario_id` int DEFAULT NULL,
+  PRIMARY KEY (`id_inscripcion`),
+  UNIQUE KEY `Inscripcions_materia_id_usuario_id_unique` (`materia_id`,`usuario_id`),
+  KEY `estudiante_id` (`estudiante_id`),
+  KEY `usuario_id` (`usuario_id`),
+  CONSTRAINT `inscripcions_ibfk_1` FOREIGN KEY (`estudiante_id`) REFERENCES `usuario` (`id_usuario`),
+  CONSTRAINT `inscripcions_ibfk_2` FOREIGN KEY (`materia_id`) REFERENCES `materia` (`id_materia`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `inscripcions_ibfk_3` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `inscripcions`
+--
+
+LOCK TABLES `inscripcions` WRITE;
+/*!40000 ALTER TABLE `inscripcions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `inscripcions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -52,23 +166,14 @@ DROP TABLE IF EXISTS `materia`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `materia` (
   `id_materia` int NOT NULL AUTO_INCREMENT,
-  `nombre_materia` varchar(255) NOT NULL,
-  `horas_total_cursada` int NOT NULL,
-  `forma_aprobacion` enum('Promoción','Examen Final') NOT NULL,
-  `año_cursada` int NOT NULL,
-  `carrera_id` int NOT NULL,
-  `estudiante_id` int DEFAULT NULL,
-  `nota1` int DEFAULT NULL,
-  `nota2` int DEFAULT NULL,
-  `nota3` int DEFAULT NULL,
-  `nota4` int DEFAULT NULL,
-  `nota_final` int DEFAULT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `horas_total_cursada` int DEFAULT NULL,
+  `forma_aprobacion` enum('Promoción','Examen Final') DEFAULT NULL,
+  `carrera_id` varchar(255) DEFAULT NULL,
+  `año_cursada` int DEFAULT NULL,
   PRIMARY KEY (`id_materia`),
-  KEY `FK_materia_carrera_idx` (`carrera_id`),
-  KEY `FK_materia_estudiante` (`estudiante_id`),
-  CONSTRAINT `FK_materia_carrera` FOREIGN KEY (`carrera_id`) REFERENCES `carreras` (`id_carrera`),
-  CONSTRAINT `FK_materia_estudiante` FOREIGN KEY (`estudiante_id`) REFERENCES `usuarios` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `carrera_id` (`carrera_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,8 +182,80 @@ CREATE TABLE `materia` (
 
 LOCK TABLES `materia` WRITE;
 /*!40000 ALTER TABLE `materia` DISABLE KEYS */;
-INSERT INTO `materia` VALUES (1,'Matematica 1',60,'Promoción',1,1,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `materia` VALUES (1,'Matematica 1',60,'Promoción','[1,2,3]',1),(2,'Algebra 1',60,'Promoción','[1,2,3]',1),(3,'Anatomia',60,'Promoción','[4]',1),(4,'Fisiologia',60,'Promoción','[4]',2),(5,'Quimica',60,'Promoción','[4]',1),(6,'Embriologia',60,'Promoción','[4]',1),(7,'Bioetica',60,'Promoción','[4]',2),(8,'Patologia',60,'Promoción','[4]',1),(9,'Logistica',60,'Promoción','[3]',2),(10,'Principios de Programacion',60,'Examen Final','[3]',1),(11,'Principios de Logica',60,'Examen Final','[3]',1),(12,'Matematica 2',60,'Examen Final','[1,2,3]',2);
 /*!40000 ALTER TABLE `materia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nota`
+--
+
+DROP TABLE IF EXISTS `nota`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nota` (
+  `id_nota` int NOT NULL AUTO_INCREMENT,
+  `nota1` float NOT NULL,
+  `nota2` float NOT NULL,
+  `nota3` float NOT NULL,
+  `nota4` float NOT NULL,
+  `nota_final` int DEFAULT NULL,
+  `usuario_id` int DEFAULT NULL,
+  `materia_id` int DEFAULT NULL,
+  PRIMARY KEY (`id_nota`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `materia_id` (`materia_id`),
+  CONSTRAINT `nota_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`),
+  CONSTRAINT `nota_ibfk_2` FOREIGN KEY (`materia_id`) REFERENCES `materia` (`id_materia`),
+  CONSTRAINT `CHK_nota1` CHECK (((`nota1` >= 0) and (`nota1` <= 10))),
+  CONSTRAINT `CHK_nota2` CHECK (((`nota2` >= 0) and (`nota2` <= 10))),
+  CONSTRAINT `CHK_nota3` CHECK (((`nota3` >= 0) and (`nota3` <= 10))),
+  CONSTRAINT `CHK_nota4` CHECK (((`nota4` >= 0) and (`nota4` <= 10)))
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nota`
+--
+
+LOCK TABLES `nota` WRITE;
+/*!40000 ALTER TABLE `nota` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nota` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario`
+--
+
+DROP TABLE IF EXISTS `usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuario` (
+  `id_usuario` int NOT NULL AUTO_INCREMENT,
+  `DNI` int NOT NULL,
+  `apellido_nombre` varchar(255) NOT NULL,
+  `celular` int DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `edad` int DEFAULT NULL,
+  `codigo_postal` int DEFAULT NULL,
+  `domicilio` varchar(150) DEFAULT NULL,
+  `carrera_id` int DEFAULT NULL,
+  `password` int DEFAULT NULL,
+  `rol` varchar(45) DEFAULT 'estudiante',
+  `año_cursada` int DEFAULT '1',
+  PRIMARY KEY (`id_usuario`),
+  KEY `carrera_id` (`carrera_id`),
+  CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`carrera_id`) REFERENCES `carrera` (`id_carrera`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario`
+--
+
+LOCK TABLES `usuario` WRITE;
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -97,16 +274,14 @@ CREATE TABLE `usuarios` (
   `edad` int NOT NULL,
   `codigo_postal` int NOT NULL,
   `domicilio` varchar(150) NOT NULL,
-  `carrera_inscripta` varchar(150) DEFAULT NULL,
-  `rol` varchar(20) DEFAULT 'estudiante',
-  `materia_id` int DEFAULT NULL,
   `carrera_id` int DEFAULT NULL,
+  `rol` varchar(20) DEFAULT 'estudiante',
   `password` varchar(15) NOT NULL,
-  `año_cursada` int DEFAULT '1',
+  `año_cursada` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_usuario`),
-  KEY `FK_usuarios_materia` (`materia_id`),
-  KEY `FK_usuarios_carrera` (`carrera_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `usuarios_ibfk_1` (`carrera_id`),
+  CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`carrera_id`) REFERENCES `carreras` (`id_carrera`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +290,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Admin User',12345678,123456789,'admin@admin.com',30,12345,'Calle Admin',NULL,'admin',0,0,'admin1234',1);
+INSERT INTO `usuarios` VALUES (1,'admin',9999,9999,'admin@admin.com',99,9999,'XXXX 9999',NULL,'admin','admin123456',0),(2,'Melany Avalos',40516452,1152415674,'melany@melany.com',25,1881,'846 5526',4,'estudiante','123456',1),(3,'Gary Coronel Avalos',60516452,1135815674,'gary@gary.com',25,1881,'846 5526',2,'estudiante','123456',1),(4,'Alberto Gomez',17516452,1196575674,'alberto@alberto.com',40,1471,'846 5526',1,'estudiante','123456',2),(5,'Somos Guan',23566452,1199687674,'somos@somos.com',23,1471,'846 5526',1,'estudiante','123456',2),(6,'Luciano Coronel',23516452,1152468974,'luciano@luciano.com',28,1828,'Rawson 5526',3,'estudiante','123456',1);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -128,4 +303,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-11 16:49:20
+-- Dump completed on 2023-07-12 16:54:48
