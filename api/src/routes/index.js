@@ -5,6 +5,7 @@ const carreraController = require('../controller/carreraC');
 const materiaController = require('../controller/materiasC');
 const usuarioController = require('../controller/usuarioC');
 const notaController = require('../controller/notaC');
+const inscripcionController = require('../controller/inscripcionC');
 
 // Endpoints para Carrera
 router.get('/carreras', carreraController.getCarreras);
@@ -31,5 +32,9 @@ router.get('/notas', notaController.getNotas);
 router.post('/notas', notaController.createNota);
 router.put('/notas/:id', notaController.updateNota);
 router.delete('/notas/:id', notaController.deleteNota);
+
+//Endpoints para inscripcion a materias
+router.get('/inscripcion/:usuarioId/materia', inscripcionController.getMateriaInscripcion);
+router.post('/inscripcion/:usuarioId/asignar-materias', inscripcionController.asignarMaterias);
 
 module.exports = router;
