@@ -54,5 +54,10 @@ module.exports = (sequelize) => {
             allowNull: false,
             defaultValue: 1, // Valor por defecto para el primer año
         },
+        materias_asignadas: {
+            type: DataTypes.JSON, // Cambiado de TEXT a JSON
+            allowNull: false,
+            defaultValue: [], // Valor por defecto: un array vacío
+        },
     }, { timestamps: false });
 };

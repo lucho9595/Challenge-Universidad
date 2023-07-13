@@ -33,8 +33,4 @@ router.post('/notas', notaController.createNota);
 router.put('/notas/:id', notaController.updateNota);
 router.delete('/notas/:id', notaController.deleteNota);
 
-//Endpoints para inscripcion a materias
-router.get('/inscripcion/:usuarioId/materia', inscripcionController.getMateriaInscripcion);
-router.post('/inscripcion/:usuarioId/asignar-materias', inscripcionController.asignarMaterias);
-
 module.exports = router;

@@ -1,4 +1,5 @@
 const { Usuario } = require('../db');
+const { asignarMateriasPrimerAño } = require('./inscripcionC')
 
 // Obtener todos los usuarios
 async function getUsuarios(req, res) {
@@ -23,30 +24,52 @@ async function getUser(req, res, next) {
 
 }
 
-// Crear un nuevo usuario
 const createUsuario = async (req, res) => {
-    const { apellido_y_nombre, dni, celular, email, edad, codigo_postal, domicilio, carrera_id, password, año_cursada } = req.body;
+    const {
+      apellido_y_nombre,
+      dni,
+      celular,
+      email,
+      edad,
+      codigo_postal,
+      domicilio,
+      carrera_id,
+      password,
+      año_cursada
+    } = req.body;
+  
     try {
-        const newUser = new Usuario({
-            apellido_y_nombre,
-            dni,
-            celular,
-            email,
-            edad,
-            codigo_postal,
-            domicilio,
-            carrera_id,
-            password,
-            año_cursada
+      const newUser = await Usuario.create({
+        apellido_y_nombre,
+        dni,
+        celular,
+        email,
+        edad,
+        codigo_postal,
+        domicilio,
+        carrera_id,
+        password,
+        año_cursada
+      });
+  
+      if (newUser.año_cursada === 1) {
+        const materiasPrimerAño = await Materia.findAll({
+          where: { año_cursada: 1, carrera_id },
         });
-        const user = await newUser.save();
-        return res.json({ msg: "Usuario creado", user });
+  
+        const materiasIds = materiasPrimerAño.map((materia) => materia.id_materia);
+  
+        // Asignar las materias al usuario
+        newUser.materias_asignadas = materiasIds;
+        await newUser.save();
+      }
+  
+      res.json({ msg: "Usuario creado", user: newUser });
     } catch (error) {
-        console.log(error)
+      console.log(error);
+      res.status(500).json({ error: "Error al crear el usuario" });
     }
-};
-
-//logueo
+  };//logueo
 const login = async (req, res, next) => {
     const { apellido_y_nombre } = req.body;
 
