@@ -16,33 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `carrera`
---
-
-DROP TABLE IF EXISTS `carrera`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `carrera` (
-  `id_carrera` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) NOT NULL,
-  `descripcion` text,
-  `fecha_apertura` date DEFAULT NULL,
-  `facultad` varchar(255) DEFAULT NULL,
-  `cantidad_años` int DEFAULT NULL,
-  PRIMARY KEY (`id_carrera`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `carrera`
---
-
-LOCK TABLES `carrera` WRITE;
-/*!40000 ALTER TABLE `carrera` DISABLE KEYS */;
-/*!40000 ALTER TABLE `carrera` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `carreramateria`
 --
 
@@ -99,34 +72,6 @@ INSERT INTO `carreras` VALUES (1,'Contador Publico','abocado a la contabilidad p
 UNLOCK TABLES;
 
 --
--- Table structure for table `inscripcion`
---
-
-DROP TABLE IF EXISTS `inscripcion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `inscripcion` (
-  `id_inscripcion` int NOT NULL AUTO_INCREMENT,
-  `usuario_id` int DEFAULT NULL,
-  `materia_id` int DEFAULT NULL,
-  PRIMARY KEY (`id_inscripcion`),
-  KEY `usuario_id` (`usuario_id`),
-  KEY `materia_id` (`materia_id`),
-  CONSTRAINT `inscripcion_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`),
-  CONSTRAINT `inscripcion_ibfk_2` FOREIGN KEY (`materia_id`) REFERENCES `materia` (`id_materia`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `inscripcion`
---
-
-LOCK TABLES `inscripcion` WRITE;
-/*!40000 ALTER TABLE `inscripcion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `inscripcion` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `inscripcions`
 --
 
@@ -135,16 +80,13 @@ DROP TABLE IF EXISTS `inscripcions`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `inscripcions` (
   `id_inscripcion` int NOT NULL AUTO_INCREMENT,
-  `estudiante_id` int NOT NULL,
-  `materia_id` int NOT NULL,
   `usuario_id` int DEFAULT NULL,
+  `materia_id` int DEFAULT NULL,
   PRIMARY KEY (`id_inscripcion`),
-  UNIQUE KEY `Inscripcions_materia_id_usuario_id_unique` (`materia_id`,`usuario_id`),
-  KEY `estudiante_id` (`estudiante_id`),
-  KEY `usuario_id` (`usuario_id`),
-  CONSTRAINT `inscripcions_ibfk_1` FOREIGN KEY (`estudiante_id`) REFERENCES `usuario` (`id_usuario`),
-  CONSTRAINT `inscripcions_ibfk_2` FOREIGN KEY (`materia_id`) REFERENCES `materia` (`id_materia`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `inscripcions_ibfk_3` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `materia_id` (`materia_id`),
+  KEY `inscripcion_ibfk_1_idx` (`usuario_id`),
+  CONSTRAINT `inscripcions_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id_usuario`),
+  CONSTRAINT `inscripcions_ibfk_2` FOREIGN KEY (`materia_id`) REFERENCES `materia` (`id_materia`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -195,23 +137,27 @@ DROP TABLE IF EXISTS `nota`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `nota` (
   `id_nota` int NOT NULL AUTO_INCREMENT,
-  `nota1` float NOT NULL,
-  `nota2` float NOT NULL,
-  `nota3` float NOT NULL,
-  `nota4` float NOT NULL,
+  `nota1` decimal(4,2) DEFAULT NULL,
+  `nota2` decimal(4,2) DEFAULT NULL,
+  `nota3` decimal(4,2) DEFAULT NULL,
+  `nota4` decimal(4,2) DEFAULT NULL,
   `nota_final` int DEFAULT NULL,
   `usuario_id` int DEFAULT NULL,
   `materia_id` int DEFAULT NULL,
   PRIMARY KEY (`id_nota`),
-  KEY `usuario_id` (`usuario_id`),
   KEY `materia_id` (`materia_id`),
-  CONSTRAINT `nota_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`),
+  KEY `nota_ibfk_1_idx` (`usuario_id`),
+  CONSTRAINT `nota_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id_usuario`),
   CONSTRAINT `nota_ibfk_2` FOREIGN KEY (`materia_id`) REFERENCES `materia` (`id_materia`),
   CONSTRAINT `CHK_nota1` CHECK (((`nota1` >= 0) and (`nota1` <= 10))),
   CONSTRAINT `CHK_nota2` CHECK (((`nota2` >= 0) and (`nota2` <= 10))),
   CONSTRAINT `CHK_nota3` CHECK (((`nota3` >= 0) and (`nota3` <= 10))),
-  CONSTRAINT `CHK_nota4` CHECK (((`nota4` >= 0) and (`nota4` <= 10)))
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `CHK_nota4` CHECK (((`nota4` >= 0) and (`nota4` <= 10))),
+  CONSTRAINT `nota_chk_1` CHECK (((`nota1` >= 1) and (`nota1` <= 10))),
+  CONSTRAINT `nota_chk_2` CHECK (((`nota2` >= 1) and (`nota2` <= 10))),
+  CONSTRAINT `nota_chk_3` CHECK (((`nota3` >= 1) and (`nota3` <= 10))),
+  CONSTRAINT `nota_chk_4` CHECK (((`nota4` >= 1) and (`nota4` <= 10)))
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,42 +166,8 @@ CREATE TABLE `nota` (
 
 LOCK TABLES `nota` WRITE;
 /*!40000 ALTER TABLE `nota` DISABLE KEYS */;
+INSERT INTO `nota` VALUES (1,8.00,2.00,8.00,9.00,7,2,1);
 /*!40000 ALTER TABLE `nota` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `usuario`
---
-
-DROP TABLE IF EXISTS `usuario`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `usuario` (
-  `id_usuario` int NOT NULL AUTO_INCREMENT,
-  `DNI` int NOT NULL,
-  `apellido_nombre` varchar(255) NOT NULL,
-  `celular` int DEFAULT NULL,
-  `email` varchar(150) DEFAULT NULL,
-  `edad` int DEFAULT NULL,
-  `codigo_postal` int DEFAULT NULL,
-  `domicilio` varchar(150) DEFAULT NULL,
-  `carrera_id` int DEFAULT NULL,
-  `password` int DEFAULT NULL,
-  `rol` varchar(45) DEFAULT 'estudiante',
-  `año_cursada` int DEFAULT '1',
-  PRIMARY KEY (`id_usuario`),
-  KEY `carrera_id` (`carrera_id`),
-  CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`carrera_id`) REFERENCES `carrera` (`id_carrera`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `usuario`
---
-
-LOCK TABLES `usuario` WRITE;
-/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -281,7 +193,7 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`id_usuario`),
   KEY `usuarios_ibfk_1` (`carrera_id`),
   CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`carrera_id`) REFERENCES `carreras` (`id_carrera`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -303,4 +215,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-12 16:54:48
+-- Dump completed on 2023-07-12 21:26:54

@@ -1,0 +1,35 @@
+Definir los modelos de datos:
+
+Carrera: con campos como nombre, descripción, fecha de apertura, facultad y cantidad de años de cursada.
+Materia: con campos como nombre, horas totales de cursada, forma de aprobación, carrera a la que pertenece y año de cursada.
+Estudiante: con campos como DNI, apellido y nombre, celular, correo electrónico, edad, código postal, domicilio y carrera a la que se inscribe.
+Nota: con campos para las notas de los parciales y la nota final de cada materia para un estudiante específico.
+Configurar las relaciones entre los modelos:
+
+Carrera y Materia: una carrera puede tener muchas materias, y una materia pertenece a una sola carrera.
+Carrera y Estudiante: una carrera puede tener muchos estudiantes, y un estudiante se inscribe en una sola carrera.
+Estudiante y Materia: un estudiante puede tener muchas materias, y una materia puede tener muchos estudiantes.
+Materia y Nota: una materia puede tener muchas notas, y una nota pertenece a una sola materia y un estudiante.
+Implementar las funciones de creación, edición y eliminación para los modelos Carrera, Materia, Estudiante y Nota.
+
+Implementar la lógica para asignar materias a un estudiante:
+
+Al inscribirse un nuevo estudiante, se asignan automáticamente las materias correspondientes al primer año de la carrera.
+Cuando un estudiante aprueba al menos el 70% de las materias de un año de la carrera, se le asignan las materias del año siguiente.
+
+Implementar la lógica para asignar materias a un estudiante:
+
+Al inscribirse un nuevo estudiante, se asignan automáticamente las materias correspondientes al primer año de la carrera.
+Cuando un estudiante aprueba al menos el 70% de las materias de un año de la carrera, se le asignan las materias del año siguiente.
+Implementar la lógica para cargar las notas de un estudiante para las materias asignadas:
+
+Registrar las 4 notas de los parciales para cada materia asignada.
+Calcular la nota final promediando las 4 notas de los parciales.
+Aplicar las reglas para determinar si el estudiante aprueba, va a examen final o promociona en función de las notas obtenidas.
+Implementar las consultas de información, como mostrar las carreras registradas con la cantidad de inscriptos por año de cursada, y consultar los datos personales e historial de notas de los estudiantes.
+
+Implementar las funciones de edición y eliminación de datos, para poder actualizar y borrar registros de carreras, materias, estudiantes y notas.
+
+Recuerda realizar las validaciones necesarias en cada etapa para garantizar la integridad de los datos y cumplir con los requisitos establecidos.
+
+Espero que esta estructura te ayude a avanzar con tu proyecto. Si tienes alguna pregunta adicional o necesitas ayuda con algún aspecto específico, no dudes en preguntar. ¡Buena suerte con el desarrollo del sistema!

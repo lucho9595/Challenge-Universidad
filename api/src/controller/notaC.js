@@ -1,5 +1,16 @@
 const { Nota } = require('../db');
 
+//OBTENER TODAS LAS NOTAS
+const getNotas = async (req, res) => {
+    try {
+      const notas = await Nota.findAll();
+      res.json({ notas });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al obtener las notas' });
+    }
+  };
+
 // Crear una nueva nota
 const createNota = async (req, res) => {
     const { nota1, nota2, nota3, nota4, materia_id, usuario_id } = req.body;
@@ -73,6 +84,7 @@ const deleteNota = async (req, res) => {
 };
 
 module.exports = {
+    getNotas,
     createNota,
     updateNota,
     deleteNota

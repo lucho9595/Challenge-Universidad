@@ -27,6 +27,7 @@ router.put('/estudiantes/:id', usuarioController.updateUsuario);
 router.delete('/estudiantes/:id', usuarioController.deleteUsuario);
 
 // Endpoints para Nota
+router.get('/notas', notaController.getNotas);
 router.post('/notas', notaController.createNota);
 router.put('/notas/:id', notaController.updateNota);
 router.delete('/notas/:id', notaController.deleteNota);
