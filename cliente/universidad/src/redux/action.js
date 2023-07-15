@@ -5,6 +5,7 @@ export const GET_DETAIL = "GET_DETAIL"
 export const POST_USER = "POST_USER";
 export const GET_NOTAS_FINALES = "GET_NOTAS_FINALES";
 export const GET_CARRERAS = "GET_CARRERAS";
+export const LOGIN_USER = "LOGIN_USER";
 
 //aca me traigo todos los usuarios
 export function getUsers() {
@@ -61,3 +62,23 @@ export function getCarreras() {
         }
     };
 };
+
+//logueo del usuario
+export function loginUser(userData) {
+    return async (dispatch) => {
+      try {
+        const response = await axios.post('http://localhost:4000/login', userData);
+        const user = response.data.user;
+  
+        // Guardar la información del usuario en el localStorage
+        localStorage.setItem('user', JSON.stringify(user));
+  
+        dispatch({
+          type: LOGIN_USER,
+          payload: user,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  }

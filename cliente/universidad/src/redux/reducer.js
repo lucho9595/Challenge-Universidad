@@ -2,10 +2,12 @@ import {
     GET_NOTAS_FINALES,
     GET_USUARIOS,
     POST_USER,
-    GET_CARRERAS
+    GET_CARRERAS,
+    LOGIN_USER,
 } from './action';
 
 const initialState = {
+    user: null, // Estado para almacenar la información del usuario logueado
     usuarios: [],
     backupUsuarios: [],
     carreras: [],
@@ -24,7 +26,7 @@ const reducer = (state = initialState, action) => {
         case POST_USER:
             return {
                 ...state,
-                users: action.payload,
+                usuarios: action.payload,
                 backUpUsers: action.payload
             };
         case GET_NOTAS_FINALES:
@@ -38,6 +40,11 @@ const reducer = (state = initialState, action) => {
                 carreras: action.payload,
                 backUpCarreras: action.payload
             }
+        case LOGIN_USER: // Acción para el inicio de sesión
+            return {
+                ...state,
+                user: action.payload, // Guardar la información del usuario en el estado
+            };
         default:
             return state;
     }
