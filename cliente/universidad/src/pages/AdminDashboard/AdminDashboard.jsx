@@ -33,10 +33,34 @@ export default function AdminDashboard() {
                             </div>
                             <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                                 <ul class="nav flex-column">
+                                <li class="nav-item">
+                                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/">
+                                            <svg class="bi"><use href="/"></use></svg>
+                                            Datos
+                                        </a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/">
                                             <svg class="bi"><use href="/"></use></svg>
-                                            Dashboard
+                                            Crear Carrera
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/">
+                                            <svg class="bi"><use href="/"></use></svg>
+                                            Crear Materia
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/">
+                                            <svg class="bi"><use href="/"></use></svg>
+                                            Usuarios Creados
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/">
+                                            <svg class="bi"><use href="/"></use></svg>
+                                            Usuarios en Carrera
                                         </a>
                                     </li>
                                 </ul>

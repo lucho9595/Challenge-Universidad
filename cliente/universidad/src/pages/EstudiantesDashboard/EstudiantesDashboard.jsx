@@ -1,6 +1,20 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function EstudianteDashboard() {
+
+    const navigate = useNavigate();
+
+    const handleSignOut = () => {
+        // Limpiar los datos del usuario del localStorage
+        localStorage.removeItem("user");
+        // Redireccionar al inicio de sesión
+        navigate("/");
+    };
+
+    // Obtener los datos del usuario del localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
+
     return (
         <>
             <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
@@ -42,7 +56,17 @@ export default function EstudianteDashboard() {
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
                                                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                                             </svg>
-                                            Dashboard
+                                            Datos
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-check" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                                                <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z" />
+                                                <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
+                                            </svg>
+                                            Notas
                                         </a>
                                     </li>
                                 </ul>
@@ -58,22 +82,33 @@ export default function EstudianteDashboard() {
                                             Settings
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link d-flex align-items-center gap-2" href="/">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
-                                                <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
-                                                <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z" />
-                                            </svg>
-                                            Sign out
-                                        </a>
+                                    <li class="nav-item" >
+                                        <button className="nav-link d-flex align-items-center gap-2" onClick={handleSignOut}>
+                                            <a class="nav-link d-flex align-items-center gap-2" href="/">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+                                                    <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
+                                                    <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z" />
+                                                </svg>
+                                                Sign out
+                                            </a>
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div>
-                            hola jejeje
+                            <h1>Hola, {user && user.apellido_y_nombre}</h1>
+                            <p>DNI</p>{user && user.dni}
+                            <p>Celular</p>{user && user.celular}
+                            <p>Email</p>{user && user.email}
+                            <p>Edad</p> {user && user.edad}
+                            <p>Codigo Postal</p>{user && user.codigo_postal}
+                            <p>Domicilio</p> {user && user.domicilio}
+                            <p>Carrera</p> {user && user.carrera_id}
+                            <p>Password</p> {user && user.password}
+                            <p>Año de Cursada</p> {user && user.año_cursada}
                         </div>
                     </main>
                 </div>
