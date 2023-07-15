@@ -33,3 +33,11 @@ Implementar las funciones de edición y eliminación de datos, para poder actual
 Recuerda realizar las validaciones necesarias en cada etapa para garantizar la integridad de los datos y cumplir con los requisitos establecidos.
 
 Espero que esta estructura te ayude a avanzar con tu proyecto. Si tienes alguna pregunta adicional o necesitas ayuda con algún aspecto específico, no dudes en preguntar. ¡Buena suerte con el desarrollo del sistema!
+
+Calcular la suma de las notas finales: En el frontend, puedes recibir las notas finales del usuario y calcular la suma de estas notas. Puedes utilizar JavaScript para hacer este cálculo.
+
+Verificar si la suma alcanza al menos un 70%: Después de calcular la suma de las notas finales, puedes verificar si esta suma es mayor o igual al 70%. Si cumple con este criterio, el usuario podrá asignarse las materias del año 2.
+
+Asignar las materias del año 2 al usuario: Si la suma de las notas finales es suficiente, puedes implementar la lógica para asignar las materias del año 2 al usuario. Esto dependerá de cómo tienes estructurada la base de datos y la lógica de asignación de materias.
+
+Recuerda que estos pasos son una guía general y puedes adaptarlos según la estructura y lógica de tu aplicación. Además, ten en cuenta que la implementación en el frontend puede variar dependiendo de la tecnología que estés utilizando.

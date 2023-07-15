@@ -5,11 +5,11 @@ export default function Mains() {
     return (
         <>
             <section id={styles.about}>
-                <div class="container px-4">
-                    <div class="row gx-4 justify-content-center">
-                        <div class="col-lg-8">
+                <div className="container px-4">
+                    <div className="row gx-4 justify-content-center">
+                        <div className="col-lg-8">
                             <h2>About this page</h2>
-                            <p class="lead">This is a great place to talk about your webpage. This template is purposefully unstyled so you can use it as a boilerplate or starting point for you own landing page designs! This template features:</p>
+                            <p className="lead">This is a great place to talk about your webpage. This template is purposefully unstyled so you can use it as a boilerplate or starting point for you own landing page designs! This template features:</p>
                             <ul>
                                 <li>Clickable nav links that smooth scroll to page sections</li>
                                 <li>Responsive behavior when clicking nav links perfect for a one page website</li>

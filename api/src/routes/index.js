@@ -26,6 +26,8 @@ router.get('/estudiantes/:id', usuarioController.getUser);
 router.post('/estudiantes', usuarioController.createUsuario);
 router.put('/estudiantes/:id', usuarioController.updateUsuario);
 router.delete('/estudiantes/:id', usuarioController.deleteUsuario);
+// Ruta para el inicio de sesión
+router.post('/login', usuarioController.login);
 
 // Endpoints para Nota
 router.get('/notas', notaController.getNotas);

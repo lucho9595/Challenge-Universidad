@@ -8,11 +8,11 @@ export default function Home() {
     return (
         <>
             <NavBar />
-            <div id={styles.heads} class="bg-primary bg-gradient text-white">
-                <div class="container px-4 text-center">
-                    <h1 class="fw-bolder">Bienvenido a la Universidad Atlantida</h1>
-                    <p class="lead">Para inscribirse haga click en el boton que se encuentra abajo</p>
-                    <a class="btn btn-lg btn-light" href="/Login">Inscribirse</a>
+            <div id={styles.heads} className="bg-primary bg-gradient text-white">
+                <div className="container px-4 text-center">
+                    <h1 className="fw-bolder">Bienvenido a la Universidad Atlantida</h1>
+                    <p className="lead">Para inscribirse haga click en el boton que se encuentra abajo</p>
+                    <a className="btn btn-lg btn-light" href="/Login">Inscribirse</a>
                 </div>
             </div>
             <Mains />

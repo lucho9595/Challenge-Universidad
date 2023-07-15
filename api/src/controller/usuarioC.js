@@ -1,4 +1,6 @@
-const { Usuario, Materia, Carrera } = require('../db');
+const { Usuario, Materia} = require('../db');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // Obtener todos los usuarios
 async function getUsuarios(req, res) {
@@ -53,6 +55,10 @@ const createUsuario = async (req, res) => {
                 materiasIds.push(materiasPrimerAño[i].id_materia);
             }
 
+            // Aplicar bcrypt al hashear la contraseña
+            const saltRounds = 10;
+            const hashedPassword = bcrypt.hashSync(password, saltRounds);
+
             // Crear el nuevo usuario con las propiedades proporcionadas y las materias asignadas
             newUser = await Usuario.create({
                 apellido_y_nombre,
@@ -63,7 +69,7 @@ const createUsuario = async (req, res) => {
                 codigo_postal,
                 domicilio,
                 carrera_id,
-                password,
+                password: hashedPassword, // Guardar la contraseña hasheada en lugar de la contraseña en texto plano
                 año_cursada,
                 materias_asignadas: materiasIds,
             });
@@ -79,28 +85,32 @@ const createUsuario = async (req, res) => {
     }
 };
 
-
 //logueo
-const login = async (req, res, next) => {
-    const { apellido_y_nombre } = req.body;
-
+const login = async (req, res) => {
+    const { email, password } = req.body;
+  
     try {
-        //Chequeamos si existe el nombre
-        const user = await Usuario.findOne({
-            apellido_y_nombre
-        });
-
-        if (!user) {
-            return res.json({
-                msg: "Usuario no encontrado"
-            });
-        }
-
-        return res.json({ msg: "Useruario logueado" });
-    } catch (err) {
-        next(err);
+      // Verificar si el usuario existe en la base de datos
+      const usuario = await Usuario.findOne({ where: { email } });
+      if (!usuario) {
+        return res.status(401).json({ error: 'Credenciales inválidas' });
+      }
+  
+      // Verificar la contraseña
+      const passwordMatch = await bcrypt.compare(password, usuario.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ error: 'Credenciales inválidas' });
+      }
+  
+      // Generar un token de autenticación
+      const token = jwt.sign({ id: usuario.id }, 'secreto', { expiresIn: '10h' });
+  
+      res.json({ token, user: usuario });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Error en el servidor' });
     }
-}
+  };
 
 // Actualizar un usuario
 const updateUsuario = async (req, res) => {
