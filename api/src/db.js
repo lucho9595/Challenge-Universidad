@@ -36,8 +36,8 @@ modelDefiners.forEach((model) => model(sequelize));
 const { Carrera, Materia, Usuario, Nota } = sequelize.models;
 
 // Relación Carrera - Materia
-Carrera.belongsToMany(Materia, { through: 'CarreraMateria', foreignKey: 'carrera_id' });
-Materia.belongsToMany(Carrera, { through: 'CarreraMateria', foreignKey: 'materia_id' });
+Carrera.hasMany(Materia, { foreignKey: 'carrera_id' });
+Materia.belongsTo(Carrera, { foreignKey: 'carrera_id' });
 
 // Relación Carrera - Estudiante
 Carrera.hasMany(Usuario, { foreignKey: 'carrera_id' });

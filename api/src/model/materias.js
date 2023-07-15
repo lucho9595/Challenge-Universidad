@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         carrera_id: {
-            type: DataTypes.ARRAY(DataTypes.INTEGER),
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         año_cursada: {

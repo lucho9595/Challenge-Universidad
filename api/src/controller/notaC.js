@@ -83,9 +83,22 @@ const deleteNota = async (req, res) => {
     }
 };
 
+const getNotasByUsuario = async (req, res) => {
+    const { usuario_id } = req.params;
+  
+    try {
+      const notas = await Nota.findAll({ where: { usuario_id } });
+      res.json({ notas });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al obtener las notas del usuario' });
+    }
+  };
+  
 module.exports = {
     getNotas,
     createNota,
     updateNota,
-    deleteNota
+    deleteNota,
+    getNotasByUsuario
 };

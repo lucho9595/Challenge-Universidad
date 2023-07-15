@@ -1,4 +1,4 @@
-const { Usuario, Materia } = require('../db');
+const { Usuario, Materia, Carrera } = require('../db');
 
 // Obtener todos los usuarios
 async function getUsuarios(req, res) {
@@ -38,21 +38,39 @@ const createUsuario = async (req, res) => {
     } = req.body;
 
     try {
+        let newUser;
 
-        // Crear el nuevo usuario con las propiedades proporcionadas y las materias asignadas
-        const newUser = await Usuario.create({
-            apellido_y_nombre,
-            dni,
-            celular,
-            email,
-            edad,
-            codigo_postal,
-            domicilio,
-            carrera_id,
-            password,
-            año_cursada,
+        if (año_cursada === 1) {
+            const materiasPrimerAño = await Materia.findAll({
+                where: {
+                    año_cursada: 1,
+                    carrera_id: carrera_id
+                }
+            });
 
-        });
+            const materiasIds = [];
+            for (let i = 0; i < materiasPrimerAño.length; i++) {
+                materiasIds.push(materiasPrimerAño[i].id_materia);
+            }
+
+            // Crear el nuevo usuario con las propiedades proporcionadas y las materias asignadas
+            newUser = await Usuario.create({
+                apellido_y_nombre,
+                dni,
+                celular,
+                email,
+                edad,
+                codigo_postal,
+                domicilio,
+                carrera_id,
+                password,
+                año_cursada,
+                materias_asignadas: materiasIds,
+            });
+        } else {
+            res.status(400).json({ error: "El año de cursada debe ser 1 para asignar materias automáticamente" });
+            return;
+        }
 
         res.json({ msg: "Usuario creado", user: newUser });
     } catch (error) {
@@ -60,6 +78,8 @@ const createUsuario = async (req, res) => {
         res.status(500).json({ error: "Error al crear el usuario" });
     }
 };
+
+
 //logueo
 const login = async (req, res, next) => {
     const { apellido_y_nombre } = req.body;
