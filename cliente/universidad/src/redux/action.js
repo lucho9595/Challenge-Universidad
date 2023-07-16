@@ -117,7 +117,7 @@ export function getMaterias() {
     return async function (dispatch) {
         try {
             let response = await axios.get("http://localhost:4000/materias");
-            let data = response.data.materias
+            let data = response.data
             return dispatch({ type: GET_MATERIAS, payload: data });
         } catch (error) {
             console.error(error);
