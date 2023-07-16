@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 
 export default function NavBar() {
   // Obtener los datos del usuario del localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
+  const storedData = localStorage.getItem("user");
+  const user = storedData ? JSON.parse(storedData).user : null;
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -49,4 +50,4 @@ export default function NavBar() {
       </div>
     </nav>
   );
-}
+};

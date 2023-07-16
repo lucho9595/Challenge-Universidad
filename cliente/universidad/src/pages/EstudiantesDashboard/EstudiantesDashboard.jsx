@@ -1,24 +1,57 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { editProfile, userSignOut, getCarreras } from "../../redux/action";
 
-export default function EstudianteDashboard() {
+export default function AdminDashboard() {
+    const dispatch = useDispatch();
+    const car = useSelector((state) => state.carreras);
+    const [showSettings, setShowSettings] = useState(false);
+    const user = useSelector((state) => state.user)
+    const [id, setId] = useState(user.user?.id_usuario)
+    const [password, setpassword] = useState(user.user?.password)
+    const [apellido_y_nombre, setapellido_y_nombre] = useState(user.user?.apellido_y_nombre)
+    const [dni, setDni] = useState(user.user?.dni)
+    const [celular, setCelular] = useState(user.user?.celular)
+    const [edad, setEdad] = useState(user.user?.edad)
+    const [codigo_postal, setcodigo_postal] = useState(user.user?.codigo_postal)
+    const [domicilio, setDomicilio] = useState(user.user?.domicilio)
+    const [año_cursada, setaño_cursada] = useState(user.user?.año_cursada)
+    const [email, setEmail] = useState(user.user?.email)
+    const [carrera, setCarrera] = useState(user.user?.carrera_id)
 
-    const navigate = useNavigate();
-
-    const handleSignOut = () => {
-        // Limpiar los datos del usuario del localStorage
-        localStorage.removeItem("user");
-        // Redireccionar al inicio de sesión
-        navigate("/");
+    console.log(user)
+    const handleToggleSettings = () => {
+        setShowSettings(!showSettings);
     };
 
-    // Obtener los datos del usuario del localStorage
-    const user = JSON.parse(localStorage.getItem("user"));
+    const changeUser = { id, password, apellido_y_nombre, email, dni, celular, edad, codigo_postal, año_cursada, domicilio }
+    console.log(changeUser)
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(editProfile(id, changeUser));
+        alert('Usuario modificado')
+    };
+
+    const handleClick = async () => {
+        dispatch(userSignOut(user));
+    };
+
+    useEffect(() => {
+        dispatch(getCarreras());
+    }, [dispatch]);
+
+
+    // Función para obtener el nombre de la carrera
+    const getCarreraNombre = (e) => {
+        const nombreCarrera = car.find((c) => c.id_carrera === carrera);
+        return nombreCarrera ? nombreCarrera.nombre_carrera : "";
+    };
 
     return (
         <>
             <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/">Company name</a>
+                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/">Universidad Atlantida</a>
 
                 <ul class="navbar-nav flex-row d-md-none">
                     <li class="nav-item text-nowrap">
@@ -46,14 +79,26 @@ export default function EstudianteDashboard() {
                     <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
                         <div class="offcanvas-lg offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
                             <div class="offcanvas-header">
-                                <h5 class="offcanvas-title" id="sidebarMenuLabel">Company name</h5>
+                                <h5 class="offcanvas-title" id="sidebarMenuLabel">Universidad Atlantida</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                        <a
+                                            class="nav-link d-flex align-items-center gap-2 active"
+                                            aria-current="page"
+                                            href="#"
+                                            onClick={() => handleToggleSettings(false)}
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="16"
+                                                height="16"
+                                                fill="currentColor"
+                                                class="bi bi-person"
+                                                viewBox="0 0 16 16"
+                                            >
                                                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                                             </svg>
                                             Datos
@@ -74,42 +119,140 @@ export default function EstudianteDashboard() {
 
                                 <ul class="nav flex-column mb-auto">
                                     <li class="nav-item">
-                                        <a class="nav-link d-flex align-items-center gap-2" href="/">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-                                                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
-                                                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
+                                        <a class="nav-link d-flex align-items-center gap-2" href="/" onClick={handleClick}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M13 1a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V2H5.5a.5.5 0 0 1-.5-.5V.5a.5.5 0 0 1 1 0V1H12V.5a.5.5 0 0 1 1 0v3.793a.5.5 0 0 1-.146.354l-3 3a.5.5 0 0 1-.708 0l-3-3A.5.5 0 0 1 4.5 4.793V1.5a.5.5 0 0 1 1 0V4H11V1.5a.5.5 0 0 1 .5-.5zm-9.5 5a.5.5 0 0 1 .5-.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm1.854 3.854a.5.5 0 0 0-.708 0l-2 2A.5.5 0 0 0 1.5 13h12a.5.5 0 0 0 .354-.854l-2-2a.5.5 0 1 0-.708.708L12.293 12H3.707l1.647 1.646a.5.5 0 0 0 .708 0z" />
                                             </svg>
-                                            Settings
+                                            Cerrar Sesión
                                         </a>
-                                    </li>
-                                    <li class="nav-item" >
-                                        <button className="nav-link d-flex align-items-center gap-2" onClick={handleSignOut}>
-                                            <a class="nav-link d-flex align-items-center gap-2" href="/">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
-                                                    <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
-                                                    <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z" />
-                                                </svg>
-                                                Sign out
-                                            </a>
-                                        </button>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                        <div>
-                            <h1>Hola, {user && user.apellido_y_nombre}</h1>
-                            <p>DNI</p>{user && user.dni}
-                            <p>Celular</p>{user && user.celular}
-                            <p>Email</p>{user && user.email}
-                            <p>Edad</p> {user && user.edad}
-                            <p>Codigo Postal</p>{user && user.codigo_postal}
-                            <p>Domicilio</p> {user && user.domicilio}
-                            <p>Carrera</p> {user && user.carrera_id}
-                            <p>Password</p> {user && user.password}
-                            <p>Año de Cursada</p> {user && user.año_cursada}
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2 ">Panel de Administración</h1>
                         </div>
+                        <h2>Contenido principal</h2>
+                        {showSettings && (
+                            <form onSubmit={(e) => handleSubmit(e)}>
+                                <div class="mb-3">
+                                    <label for="inputName" class="form-label">Nombre</label>
+                                    <input
+                                        type="text"
+                                        id="floatingInput"
+                                        className="form-control"
+                                        name="apellido_y_nombre"
+                                        value={apellido_y_nombre}
+
+                                        onChange={(e) => setapellido_y_nombre(e.target.value)} />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputDni" class="form-label">Dni</label>
+                                    <input
+                                        type="text"
+                                        id="floatingInput"
+                                        className="form-control"
+                                        name="dni"
+                                        value={dni}
+
+                                        onChange={(e) => setDni(e.target.value)} />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputCelular" class="form-label">Celular</label>
+                                    <input
+                                        type="text"
+                                        id="floatingInput"
+                                        className="form-control"
+                                        name="celular"
+                                        value={celular}
+
+                                        onChange={(e) => setCelular(e.target.value)} />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputEdad" class="form-label">Edad</label>
+                                    <input
+                                        type="text"
+                                        id="floatingInput"
+                                        className="form-control"
+                                        name="edad"
+                                        value={edad}
+
+                                        onChange={(e) => setEdad(e.target.value)} />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputCodigoPosal" class="form-label">Codigo postal</label>
+                                    <input
+                                        type="text"
+                                        id="floatingInput"
+                                        className="form-control"
+                                        name="codigo_postal"
+                                        value={codigo_postal}
+
+                                        onChange={(e) => setcodigo_postal(e.target.value)} />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputDomicilio" class="form-label">Domicilio</label>
+                                    <input
+                                        type="text"
+                                        id="floatingInput"
+                                        className="form-control"
+                                        name="domicilio"
+                                        value={domicilio}
+
+                                        onChange={(e) => setDomicilio(e.target.value)} />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputEmail" class="form-label">Email</label>
+                                    <input
+                                        type="text"
+                                        id="floatingInput"
+                                        className="form-control"
+                                        name="email"
+                                        value={email}
+
+                                        onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="inputCarrera" className="form-label">
+                                        Carrera
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="inputCarrera"
+                                        value={getCarreraNombre(user?.carrera_id)}
+                                        readOnly
+                                    />
+                                </div>           
+                                                     <div class="mb-3">
+                                    <label for="inputaño_cursada" class="form-label">Año de cursada</label>
+                                    <input
+                                        type="text"
+                                        id="floatingInput"
+                                        className="form-control"
+                                        name="año_cursada"
+                                        value={año_cursada}
+
+                                        onChange={(e) => setaño_cursada(e.target.value)} />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputPassword" class="form-label">Contraseña</label>
+                                    <input
+                                        type="password"
+                                        id="floatingInput"
+                                        className="form-control"
+                                        name="password"
+                                        value={password}
+
+                                        onChange={(e) => setpassword(e.target.value)} />
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    Editar
+                                </button>
+                            </form>
+                        )}
                     </main>
                 </div>
             </div>

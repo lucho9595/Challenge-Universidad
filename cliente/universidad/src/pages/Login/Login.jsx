@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../redux/action";
+import { loginAuth } from "../../redux/action";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -21,7 +21,7 @@ export default function Login() {
     async function handleSubmit(e) {
         e.preventDefault();
         if (input) {
-            dispatch(loginUser(input))
+            dispatch(loginAuth(input))
                 .then(() => {
                     alert('Usuario logueado con exito!')
                     navigate("/");

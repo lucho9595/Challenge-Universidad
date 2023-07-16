@@ -1,4 +1,4 @@
-const { Usuario, Materia} = require('../db');
+const { Usuario, Materia } = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -88,35 +88,39 @@ const createUsuario = async (req, res) => {
 //logueo
 const login = async (req, res) => {
     const { email, password } = req.body;
-  
+
     try {
-      // Verificar si el usuario existe en la base de datos
-      const usuario = await Usuario.findOne({ where: { email } });
-      if (!usuario) {
-        return res.status(401).json({ error: 'Credenciales inválidas' });
-      }
-  
-      // Verificar la contraseña
-      const passwordMatch = await bcrypt.compare(password, usuario.password);
-      if (!passwordMatch) {
-        return res.status(401).json({ error: 'Credenciales inválidas' });
-      }
-  
-      // Generar un token de autenticación
-      const token = jwt.sign({ id: usuario.id }, 'secreto', { expiresIn: '10h' });
-  
-      res.json({ token, user: usuario });
+        // Verificar si el usuario existe en la base de datos
+        const usuario = await Usuario.findOne({ where: { email } });
+        if (!usuario) {
+            return res.status(401).json({ error: 'Credenciales inválidas' });
+        }
+
+        // Verificar la contraseña
+        const passwordMatch = await bcrypt.compare(password, usuario.password);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: 'Credenciales inválidas' });
+        }
+
+        // Generar un token de autenticación
+        const token = jwt.sign({ id: usuario.id }, 'secreto', { expiresIn: '10h' });
+
+        res.json({ token, user: usuario });
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: 'Error en el servidor' });
+        console.log(error);
+        res.status(500).json({ error: 'Error en el servidor' });
     }
-  };
+};
 
 // Actualizar un usuario
 const updateUsuario = async (req, res) => {
     const { id } = req.params;
-    const { apellido_y_nombre, dni, celular, email, edad, codigo_postal, domicilio, carrera_id, password, año_cursada } = req.body;
+    const { apellido_y_nombre, dni, celular, email, edad, codigo_postal, domicilio, password, año_cursada } = req.body;
     try {
+        const salt = await bcrypt.genSalt(10)
+
+        const cryptPassword = await bcrypt.hash(password, salt);
+
         const usuario = await Usuario.findByPk(id);
         if (usuario) {
             usuario.apellido_y_nombre = apellido_y_nombre;
@@ -126,11 +130,10 @@ const updateUsuario = async (req, res) => {
             usuario.edad = edad;
             usuario.codigo_postal = codigo_postal;
             usuario.domicilio = domicilio;
-            usuario.carrera_id = carrera_id;
-            usuario.password = password;
+            usuario.password = cryptPassword;
             usuario.año_cursada = año_cursada;
             await usuario.save();
-            return res.status(200).json({ msg: "Usuario editado" });
+            return res.status(200).json(usuario);
         } else {
             res.status(404).json({ error: 'Usuario no encontrado.' });
         }

@@ -3,9 +3,11 @@ import axios from "axios";
 export const GET_USUARIOS = "GET_USUARIOS";
 export const GET_DETAIL = "GET_DETAIL"
 export const POST_USER = "POST_USER";
+export const EDIT_PROFILE = "EDIT_PROFILE";
 export const GET_NOTAS_FINALES = "GET_NOTAS_FINALES";
 export const GET_CARRERAS = "GET_CARRERAS";
 export const LOGIN_USER = "LOGIN_USER";
+export const LOG_OUT = "LOG_OUT";
 
 //aca me traigo todos los usuarios
 export function getUsers() {
@@ -64,21 +66,43 @@ export function getCarreras() {
 };
 
 //logueo del usuario
-export function loginUser(userData) {
-    return async (dispatch) => {
-      try {
-        const response = await axios.post('http://localhost:4000/login', userData);
-        const user = response.data.user;
-  
-        // Guardar la información del usuario en el localStorage
-        localStorage.setItem('user', JSON.stringify(user));
-  
-        dispatch({
-          type: LOGIN_USER,
-          payload: user,
-        });
-      } catch (error) {
-        console.error(error);
-      }
+export function loginAuth(body) {
+    return async function (dispatch) {
+        try {
+            let login = await axios.post(`http://localhost:4000/login`, body);
+            return dispatch({
+                type: LOGIN_USER,
+                payload: login.data
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+};
+
+//editar el perfil:
+export function editProfile(id, payload) {
+    console.log(id)
+    console.log("estoy aca")
+    return async function (dispatch) {
+        console.log("avanzo 1 paso")
+        try {
+            const edit = await axios.put(`http://localhost:4000/estudiantes/${id}`, payload);
+            console.log(edit)
+            return dispatch({
+                type: EDIT_PROFILE,
+                payload: edit.data
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+};
+
+//cerramos seccion:
+export function userSignOut(datos) {
+    return {
+        type: LOG_OUT,
+        payload: datos,
     };
-  }
+}
