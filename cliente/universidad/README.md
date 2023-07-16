@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+Project React JS - Universidad ATLANTIDA
+Challenge Universidad
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Funcionalidades
+USUARIO:
 
+Autenticacion , envio de email de bienvenida.
+Perfil del usuario, cambio de sus datos , ver sus notas.
+
+ADMIN:
+
+Dashboard de admin
+Seccion para crear carreras.
+Seccion para crear materias.
+Puede ver: Nombre de Carreras su facultad y la cantidad de inscriptos, nombre de materias, nombre de usuarios, ver los datos del admin y modificarlos
+ 
+Tecnologías usadas en el proyecto:
+React
+Bootstrap
+Node
+MySQL
+
+Authors
+Luciano Coronel - linkedin
+
+Instalacion
 In the project directory, you can run:
 
-### `npm start`
+git clone https://github.com/lucho9595/Challenge-Universidad
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+El boilerplate cuenta con dos carpetas: api y client. En estas carpetas estará el código del back-end y el front-end respectivamente.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+En api crear un archivo llamado: .env que tenga la siguiente forma:
 
-### `npm test`
+PORT=4000
+DB_USER=usuarioDeMySQL
+DB_PASSWORD=passwordDeMySQL
+DB_PASSWORD="lucho11524911"
+DB_DATABASE="universidad"
+DB_HOST="localhost"
+DB_PORT="3306"
+Reemplazar usuarioDeMySQL y passwordDeMySQL con tus propias credenciales para conectarte a MySQL. Este archivo va ser ignorado en la subida a github, ya que contiene información sensible (las credenciales).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Adicionalmente será necesario que creen desde MySQL una base de datos llamada universidad
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+npm install
+On folder /cliente/universidad npm install & npm npm start
+On folder /api npm install & npm start
