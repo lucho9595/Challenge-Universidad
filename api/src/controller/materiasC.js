@@ -11,12 +11,12 @@ const getMaterias = async (req, res) => {
 };
 
 const createMateria = async (req, res) => {
-    const { nombre, horas_total_cursada, forma_aprobacion, carrera_ids, año_cursada } = req.body;
+    const { nombre, horas_total_cursada, forma_aprobacion, carrera_id, año_cursada } = req.body;
 
     try {
-        const carreraIds = Array.isArray(carrera_ids)
-            ? carrera_ids.filter((id) => Number.isInteger(id))
-            : [carrera_ids].filter((id) => Number.isInteger(id));
+        const carreraIds = Array.isArray(carrera_id)
+            ? carrera_id.filter((id) => Number.isInteger(id))
+            : [carrera_id].filter((id) => Number.isInteger(id));
 
         const materia = await Materia.create({
             nombre,

@@ -8,6 +8,9 @@ import {
     LOGIN_USER,
     EDIT_PROFILE,
     LOG_OUT,
+    CREATE_MATERIA,
+    CREATE_CARRERA,
+    GET_MATERIAS
 } from './action';
 
 const initialState = {
@@ -17,6 +20,8 @@ const initialState = {
     usuarios: [],
     backupUsuarios: [],
     carreras: [],
+    materias: [],
+    backUpMaterias: [],
     backUpCarreras: [],
     notasFinales: [],
 };
@@ -46,6 +51,12 @@ const reducer = (state = initialState, action) => {
                 carreras: action.payload,
                 backUpCarreras: action.payload
             }
+        case GET_MATERIAS:
+            return {
+                ...state,
+                materias: action.payload,
+                backUpMaterias: action.payload,
+            }
         case LOGIN_USER: // Acción para el inicio de sesión
             persisLocalStorage("user", action.payload);
             return {
@@ -66,6 +77,16 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: null,
+            };
+        case CREATE_MATERIA:
+            return {
+                ...state,
+                materias: [...state.materias, action.payload],
+            };
+        case CREATE_CARRERA:
+            return {
+                ...state,
+                carreras: [...state.carreras, action.payload],
             };
         default:
             return state;

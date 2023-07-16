@@ -6,8 +6,11 @@ export const POST_USER = "POST_USER";
 export const EDIT_PROFILE = "EDIT_PROFILE";
 export const GET_NOTAS_FINALES = "GET_NOTAS_FINALES";
 export const GET_CARRERAS = "GET_CARRERAS";
+export const GET_MATERIAS = "GET_MATERIAS";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOG_OUT = "LOG_OUT";
+export const CREATE_MATERIA = "CREATE_MATERIA";
+export const CREATE_CARRERA = "CREATE_CARRERA";
 
 //aca me traigo todos los usuarios
 export function getUsers() {
@@ -33,32 +36,6 @@ export function registerUser(userData) {
                 type: POST_USER,
                 payload: response,
             });
-        } catch (error) {
-            console.error(error);
-        }
-    };
-};
-
-//traigo todas las notas finales
-export const getNotasFinales = () => {
-    return async (dispatch) => {
-        try {
-            let response = await axios.get('http://localhost:4000/notas');
-            let notasFinales = response.data.notas;
-            dispatch({ type: GET_NOTAS_FINALES, payload: notasFinales });
-        } catch (error) {
-            console.error(error);
-        }
-    };
-};
-
-//traigo todas las carreras
-export function getCarreras() {
-    return async function (dispatch) {
-        try {
-            let response = await axios.get("http://localhost:4000/carreras");
-            let data = response.data.carreras
-            return dispatch({ type: GET_CARRERAS, payload: data });
         } catch (error) {
             console.error(error);
         }
@@ -106,3 +83,72 @@ export function userSignOut(datos) {
         payload: datos,
     };
 }
+
+//traigo todas las carreras
+export function getCarreras() {
+    return async function (dispatch) {
+        try {
+            let response = await axios.get("http://localhost:4000/carreras");
+            let data = response.data.carreras
+            return dispatch({ type: GET_CARRERAS, payload: data });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+};
+
+//registro de carrera
+export function registerCarrera(datas) {
+    return async (dispatch) => {
+        try {
+            let response = await axios.post('http://localhost:4000/carreras', datas);
+            return dispatch({
+                type: CREATE_CARRERA,
+                payload: response,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+};
+
+//traigo todas las carreras
+export function getMaterias() {
+    return async function (dispatch) {
+        try {
+            let response = await axios.get("http://localhost:4000/materias");
+            let data = response.data.materias
+            return dispatch({ type: GET_MATERIAS, payload: data });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+};
+
+//registro de materia
+export function registerMateria(data) {
+    return async (dispatch) => {
+        try {
+            let response = await axios.post('http://localhost:4000/materias', data);
+            return dispatch({
+                type: CREATE_MATERIA,
+                payload: response,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+};
+
+//traigo todas las notas finales
+export const getNotasFinales = () => {
+    return async (dispatch) => {
+        try {
+            let response = await axios.get('http://localhost:4000/notas');
+            let notasFinales = response.data.notas;
+            dispatch({ type: GET_NOTAS_FINALES, payload: notasFinales });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+};
