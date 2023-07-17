@@ -5,7 +5,6 @@ import { getMaterias } from "../../redux/action";
 export default function MateriasCreadas() {
     const dispatch = useDispatch();
     const allMaterias = useSelector((state) => state.materias);
-    console.log(allMaterias)
 
     useEffect(() => {
         dispatch(getMaterias())

@@ -61,7 +61,6 @@ export default function CrearMateria() {
         }
     }
 
-console.log(input)
     return (
         <div>
             <h2>Crear Materia</h2>

@@ -5,11 +5,11 @@ import { getUsers } from "../../redux/action";
 export default function UsuarioCreado() {
     const dispatch = useDispatch();
     const allUsers = useSelector((state) => state.usuarios);
-console.log(allUsers)
 
-useEffect(() => {
-    dispatch(getUsers())
-})
+    useEffect(() => {
+        dispatch(getUsers())
+    }, [dispatch])
+    
     const nombres = allUsers.map((n) => n.apellido_y_nombre);
     return (
         <div>

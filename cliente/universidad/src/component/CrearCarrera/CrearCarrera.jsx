@@ -33,7 +33,7 @@ export default function CrearCarrera() {
             alert("Carrera creada con éxito!");
         }
     };
-console.log(input)
+
     return (
         <div>
             <h2>Crear Carrera</h2>

@@ -1,7 +1,7 @@
 import { persisLocalStorage, removeLocalStorage } from "../utils/localstorage";
 
 import {
-    GET_NOTAS_FINALES,
+    GET_NOTAS,
     GET_USUARIOS,
     POST_USER,
     GET_CARRERAS,
@@ -10,7 +10,10 @@ import {
     LOG_OUT,
     CREATE_MATERIA,
     CREATE_CARRERA,
-    GET_MATERIAS
+    GET_MATERIAS,
+    DELETE_ALL_NOTAS,
+    UPDATE_NOTA,
+    ASSIGN_NOTA_SUCCESS,
 } from './action';
 
 const initialState = {
@@ -23,7 +26,7 @@ const initialState = {
     materias: [],
     backUpMaterias: [],
     backUpCarreras: [],
-    notasFinales: [],
+    notas: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -40,10 +43,10 @@ const reducer = (state = initialState, action) => {
                 usuarios: action.payload,
                 backUpUsers: action.payload
             };
-        case GET_NOTAS_FINALES:
+        case GET_NOTAS:
             return {
                 ...state,
-                notasFinales: action.payload,
+                notas: action.payload,
             };
         case GET_CARRERAS:
             return {
@@ -87,6 +90,24 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 carreras: [...state.carreras, action.payload],
+            };
+        case DELETE_ALL_NOTAS:
+            const deleteUser = state.notas.find((pj) => pj.id === action.payload);
+            return {
+                ...state,
+                users: deleteUser
+            };
+        case UPDATE_NOTA:
+            return {
+                ...state,
+                notas: state.notas.map((nota) =>
+                    nota.id_nota === action.payload.notaId ? { ...nota, ...action.payload.updatedNota } : nota
+                ),
+            };
+        case ASSIGN_NOTA_SUCCESS:
+            return {
+                ...state,
+                notas: action.payload
             };
         default:
             return state;
