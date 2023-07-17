@@ -6,32 +6,40 @@ export default function AsignarNotas() {
   const dispatch = useDispatch();
   const allUsuarios = useSelector((state) => state.usuarios);
   const allMaterias = useSelector((state) => state.materias);
-
+console.log(allUsuarios)
   const [selectedUsuarioId, setSelectedUsuarioId] = useState("");
   const [selectedMateriaId, setSelectedMateriaId] = useState("");
   const [nota1, setNota1] = useState(0);
   const [nota2, setNota2] = useState(0);
   const [nota3, setNota3] = useState(0);
   const [nota4, setNota4] = useState(0);
+  const [materiasUsuario, setMateriasUsuario] = useState([]);
 
   const handleUsuarioChange = (e) => {
     const selectedUsuarioId = e.target.value;
     setSelectedUsuarioId(selectedUsuarioId);
-    setSelectedMateriaId(""); // Restablecer la materia seleccionada
-
-    const usuario = allUsuarios.find(
+  
+    const selectedUsuario = allUsuarios.find(
       (usuario) => usuario.id_usuario === selectedUsuarioId
     );
-    const materiasAsignadas = usuario ? usuario.materias_asignadas : [];
-
-    // Filtrar y obtener las materias asignadas al usuario
-    const materiasUsuario = allMaterias.filter((materia) =>
-      materiasAsignadas.includes(materia.id_materia)
-    );
-
-    setMateriasUsuario(materiasUsuario);
-  };
-
+  
+    if (selectedUsuario) {
+      const materiasAsignadas = selectedUsuario.materias_asignadas;
+      let materiasUsuario = [];
+  
+      if (materiasAsignadas && Array.isArray(materiasAsignadas)) {
+        materiasUsuario = allMaterias.filter((materia) =>
+          materiasAsignadas.includes(materia.id_materia)
+        );
+      }
+  
+      setMateriasUsuario(materiasUsuario);
+    } else {
+      setMateriasUsuario([]);
+    }
+    setSelectedMateriaId(""); // Restablecer la materia seleccionada al cambiar de usuario
+  };  
+  
   const handleMateriaChange = (e) => {
     setSelectedMateriaId(e.target.value);
   };
@@ -86,7 +94,7 @@ export default function AsignarNotas() {
           >
             <option value="">Selecciona un usuario</option>
             {allUsuarios
-              .filter((usuario) => usuario.role !== "admin")
+              .filter((usuario) => usuario.rol !== "admin")
               .map((usuario) => (
                 <option key={usuario.id_usuario} value={usuario.id_usuario}>
                   {usuario.apellido_y_nombre}
@@ -103,11 +111,15 @@ export default function AsignarNotas() {
             disabled={!selectedUsuarioId}
           >
             <option value="">Selecciona una materia</option>
-            {materiasUsuario.map((materia) => (
-              <option key={materia.id_materia} value={materia.id_materia}>
-                {materia.nombre}
-              </option>
-            ))}
+            {materiasUsuario.length > 0 ? (
+              materiasUsuario.map((materia) => (
+                <option key={materia.id_materia} value={materia.id_materia}>
+                  {materia.nombre}
+                </option>
+              ))
+            ) : (
+              <option disabled>No hay materias asignadas</option>
+            )}
           </select>
         </div>
         <div>

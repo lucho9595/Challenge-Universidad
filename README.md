@@ -1,6 +1,38 @@
 Project React JS - Universidad ATLANTIDA
 Challenge Universidad
 
+ENDPOINTS:
+// Endpoints para Carrera
+router.get --> http://localhost:4000/carreras/:id
+router.get --> http://localhost:4000/carreras
+router.post --> http://localhost:4000/carreras
+router.put --> http://localhost:4000/carreras/:id
+router.delete --> http://localhost:4000/carreras/:id
+
+
+// Endpoints para Materia
+router.get --> http://localhost:4000/materias
+router.post --> http://localhost:4000/materias
+router.put --> http://localhost:4000/materias/:id
+router.delete --> http://localhost:4000/materias/:id
+
+
+// Endpoints para Estudiante
+router.get --> http://localhost:4000/estudiantes/:id
+router.get --> http://localhost:4000/estudiantes
+router.post --> http://localhost:4000/estudiantes
+router.put --> http://localhost:4000/estudiantes/:id
+router.delete --> http://localhost:4000/estudiantes/:id
+
+// Ruta para el inicio de sesión
+router.post -->http://localhost:4000/login
+
+// Endpoints para Nota
+router.get --> http://localhost:4000/notas/usuario/:usuario_id
+router.get --> http://localhost:4000/notas
+router.post --> http://localhost:4000/notas
+router.put --> http://localhost:4000/notas/:id
+router.delete --> http://localhost:4000/notas/:id
 
 Funcionalidades
 USUARIO:

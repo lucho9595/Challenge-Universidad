@@ -9,18 +9,24 @@ export default function UsuarioCreado() {
     useEffect(() => {
         dispatch(getUsers())
     }, [dispatch])
-    
+
     const nombres = allUsers.map((n) => n.apellido_y_nombre);
     return (
         <div>
             <label>Apellidos y Nombres:</label>
-            <span>
+            <ul>
                 {Array.isArray(nombres) && nombres.map((ns) => (
-                    <option key={ns.id_usuario} value={ns.id_usuario}>
-                        {ns}
-                    </option>
+                    <li key={ns.id_usuario}>
+                        <span key={ns.id_usuario} value={ns.id_usuario}>
+                            {ns}
+                        </span>
+                        <button className="btn btn-success" >
+                            Editar Usuario
+                        </button>
+                        <button className="btn btn-danger" >Borrar Usuario</button>
+                    </li>
                 ))}
-            </span>
+            </ul>
         </div>
     )
 }

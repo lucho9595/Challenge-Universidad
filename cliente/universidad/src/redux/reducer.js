@@ -14,6 +14,7 @@ import {
     DELETE_ALL_NOTAS,
     UPDATE_NOTA,
     ASSIGN_NOTA_SUCCESS,
+    GET_NOTAS_SUCCESS,
 } from './action';
 
 const initialState = {
@@ -108,6 +109,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 notas: action.payload
+            };
+        case GET_NOTAS_SUCCESS:
+            return {
+                ...state,
+                notas: action.payload,
             };
         default:
             return state;

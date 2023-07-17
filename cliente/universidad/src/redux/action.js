@@ -14,6 +14,7 @@ export const CREATE_CARRERA = "CREATE_CARRERA";
 export const DELETE_ALL_NOTAS = "DELETE_ALL_NOTAS";
 export const UPDATE_NOTA = "UPDATE_NOTA";
 export const ASSIGN_NOTA_SUCCESS = "ASSIGN_NOTA_SUCCESS";
+export const GET_NOTAS_SUCCESS = "GET_NOTAS_SUCCESS";
 
 //aca me traigo todos los usuarios
 export function getUsers() {
@@ -179,14 +180,26 @@ export function deleteNotas(id) {
   export function assignNota(data) {
     return async (dispatch) => {
       try {
-        let response = await axios.post("http://localhost:4000/notas", data);
-        // Si la solicitud es exitosa, dispatch la acción ASSIGN_NOTA_SUCCESS
+        let response = await axios.post("http://localhost:4000/notas", data);  
+        // Si la solicitud es exitosa, dispatch la acción ASSIGN_NOTA_SUCCESS con los datos de la nota
         dispatch({
           type: ASSIGN_NOTA_SUCCESS,
           payload: response,
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
   }
+  
+  export function getNotasByUsuario(usuarioId){
+    return async (dispatch) => {
+      try {
+        const response = await axios.get(`http://localhost:4000/notas/usuario/${usuarioId}`);
+        const notas = response.data.notas;
+        dispatch({ type: GET_NOTAS_SUCCESS, payload: notas });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  };

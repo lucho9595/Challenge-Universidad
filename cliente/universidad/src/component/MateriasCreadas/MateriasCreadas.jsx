@@ -9,18 +9,24 @@ export default function MateriasCreadas() {
     useEffect(() => {
         dispatch(getMaterias())
     }, [dispatch])
-    
+
     const nombres = allMaterias.map((n) => n.nombre);
     return (
         <div>
             <label>Nombre de Materia:</label>
-            <span>
+            <ul>
                 {Array.isArray(nombres) && nombres.map((ns) => (
-                    <option key={ns.id_materia} value={ns.id_materia}>
-                        {ns}
-                    </option>
+                    <li key={ns.id_materia}>
+                        <span key={ns.id_materia} value={ns.id_materia}>
+                            {ns}
+                        </span>
+                        <button className="btn btn-success" >
+                            Editar Materia
+                        </button>
+                        <button className="btn btn-danger" >Borrar Materia</button>
+                    </li>
                 ))}
-            </span>
+            </ul>
         </div>
     )
 }

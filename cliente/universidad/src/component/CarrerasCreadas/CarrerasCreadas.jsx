@@ -28,6 +28,10 @@ export default function CarreraCreada() {
             <li key={carrera.id_carrera}>
               {carrera.nombre_carrera} - {carrera.facultad} - Tiene:{" "}
               {getCantidadInscriptos(carrera.id_carrera)} inscriptos
+              <button className="btn btn-success" >
+                Editar Carrera
+              </button>
+              <button className="btn btn-danger" >Borrar Carrera</button>
             </li>
           ))}
       </ul>

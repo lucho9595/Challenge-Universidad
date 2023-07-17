@@ -8,8 +8,6 @@ export default function Registrarse() {
     const dispatch = useDispatch();
     const allUsers = useSelector((state) => state.usuarios);
     const allCarreras = useSelector((state) => state.carreras);
-
-    console.log(allCarreras)
     const navigate = useNavigate();
     const [input, setInput] = useState({
         apellido_y_nombre: '',
@@ -24,7 +22,6 @@ export default function Registrarse() {
         año_cursada: 0
     })
 
-    console.log(input)
     const handleClick = () => {
         navigate('/');
     };
